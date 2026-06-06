@@ -263,7 +263,7 @@ function UserDashboard() {
                   >
                     <div style={imageBorderBox}>
   <img
-    src={`http://localhost:5000/uploads/${r.image}`}
+    src={`https://dineflex-production.up.railway.app/uploads/${r.image}`}
     alt={r.restaurantName}
     style={{
       width: "100%",

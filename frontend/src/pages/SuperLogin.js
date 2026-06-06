@@ -11,7 +11,7 @@ function SuperLogin() {
   const login = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/super/login",
+        "https://dineflex-production.up.railway.app/api/super/login",
         { email, password }
       );
 

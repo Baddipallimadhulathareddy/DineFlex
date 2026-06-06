@@ -390,7 +390,7 @@ setForm({
                 style={styles.dishCard}
               >
                 <img
-  src={`http://localhost:5000/uploads/${d.image}`}
+  src={`https://dineflex-production.up.railway.app/uploads/${d.image}`}
   alt={d.name}
   style={styles.dishImage}
 />

@@ -79,7 +79,7 @@ function Overview({ adminId }) {
         <img
           src={
             !imgError && admin.image
-              ? `http://localhost:5000/uploads/${admin.image}`
+              ? `https://dineflex-production.up.railway.app/uploads/${admin.image}`
               : coupleImg
           }
           alt="restaurant"

@@ -9,8 +9,8 @@ function SuperDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const load = async () => {
-    const a = await axios.get("http://localhost:5000/api/super/admins");
-    const u = await axios.get("http://localhost:5000/api/super/users");
+    const a = await axios.get("https://dineflex-production.up.railway.app/api/super/admins");
+    const u = await axios.get("https://dineflex-production.up.railway.app/api/super/users");
 
     setAdmins(a.data);
     setUsers(u.data);
@@ -123,7 +123,7 @@ const logout = () => {
                 onClick={() =>
                   action(
                     "put",
-                    `http://localhost:5000/api/super/unblock-${type}/${item.id}`
+                    `https://dineflex-production.up.railway.app/api/super/unblock-${type}/${item.id}`
                   )
                 }
                 style={greenBtn}
@@ -135,7 +135,7 @@ const logout = () => {
                 onClick={() =>
                   action(
                     "put",
-                    `http://localhost:5000/api/super/block-${type}/${item.id}`
+                    `https://dineflex-production.up.railway.app/api/super/block-${type}/${item.id}`
                   )
                 }
                 style={yellowBtn}
@@ -148,7 +148,7 @@ const logout = () => {
               onClick={() =>
                 action(
                   "delete",
-                  `http://localhost:5000/api/super/delete-${type}/${item.id}`
+                  `https://dineflex-production.up.railway.app/api/super/delete-${type}/${item.id}`
                 )
               }
               style={redBtn}
