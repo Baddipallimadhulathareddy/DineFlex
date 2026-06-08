@@ -19,11 +19,14 @@ function Login() {
         password
       });
 
-      localStorage.setItem("userId", res.data.user.id);
-      localStorage.setItem("userName", res.data.user.name);
+    localStorage.setItem("userId", res.data.user.id);
+localStorage.setItem("userName", res.data.user.name);
+localStorage.setItem("userEmail", res.data.user.email);
+localStorage.setItem("userPhone", res.data.user.phone);
+localStorage.setItem("userAddress", res.data.user.address);
 
-      alert("User Login Successful");
-      window.location.href = "/user-dashboard";
+alert("User Login Successful");
+window.location.href = "/user-dashboard";
 
     } else {
 
