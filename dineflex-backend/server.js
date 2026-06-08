@@ -39,7 +39,9 @@ app.use(
   "/api/payments",
   paymentRoutes
 );
-
+app.get("/", (req, res) => {
+  res.send("DineFlex Backend is Running 🚀");
+});
 // Server Start
 const PORT = process.env.PORT || 5000;
 
