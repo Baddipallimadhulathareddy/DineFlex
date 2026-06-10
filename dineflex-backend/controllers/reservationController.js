@@ -4,15 +4,20 @@ const dns = require("dns");
 dns.setDefaultResultOrder("ipv4first");
 require("dotenv").config();
 const transporter = nodemailer.createTransport({
-  host: "74.125.69.108", // Gmail SMTP IPv4
+  host: "smtp-relay.brevo.com",
   port: 587,
   secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    rejectUnauthorized: false
+  }
+});
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("Brevo SMTP Error:", error);
+  } else {
+    console.log("Brevo SMTP Ready");
   }
 });
 
@@ -185,7 +190,7 @@ const finalUserId = userId ? Number(userId) : 0;
 
 // EMAIL STARTS HERE
 const mailOptions = {
-  from: process.env.EMAIL_USER,
+  from: "DineFlex <madhulathareddy70@gmail.com>",
   to: guestEmail,
   subject: "Reservation Confirmation - DineFlex",
   html: `
