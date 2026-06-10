@@ -1,5 +1,7 @@
 const db = require("../db");
 const nodemailer = require("nodemailer");
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
 require("dotenv").config();
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
