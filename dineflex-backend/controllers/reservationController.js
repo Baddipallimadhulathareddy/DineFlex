@@ -4,7 +4,7 @@ const dns = require("dns");
 dns.setDefaultResultOrder("ipv4first");
 require("dotenv").config();
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "74.125.69.108", // Gmail SMTP IPv4
   port: 587,
   secure: false,
   auth: {
