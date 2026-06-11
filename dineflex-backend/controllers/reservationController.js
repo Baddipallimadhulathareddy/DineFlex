@@ -1,38 +1,9 @@
 const db = require("../db");
-const nodemailer = require("nodemailer");
-const dns = require("dns");
-dns.setDefaultResultOrder("ipv4first");
+const sendReservationEmail = require("../utils/emailService");
 require("dotenv").config();
-console.log("EMAIL_USER =", process.env.EMAIL_USER);
-console.log(
-  "EMAIL_PASS exists =",
-  !!process.env.EMAIL_PASS
-);
-const transporter = nodemailer.createTransport({
-  host: "smtp-relay.brevo.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("Brevo SMTP Error:", error);
-  } else {
-    console.log("Brevo SMTP Ready");
-  }
-});
 
-transporter.verify(function (error, success) {
-  if (error) {
-    console.error("SMTP Verify Error:", error);
-  } else {
-    console.log("SMTP Server Ready");
-  }
-});
+
 
 // AUTO DELETE EXPIRED RESERVATIONS
 const deleteExpiredReservations = () => {
@@ -53,10 +24,14 @@ const deleteExpiredReservations = () => {
   (err, result) => {
     if (err) {
       console.log(err);
-    } else {
+    } 
+    else 
+    {
+      if (result.affectedRows > 0) {
       console.log(
         `${result.affectedRows} expired reservations deleted`
       );
+    }
     }
   }
 );
@@ -194,75 +169,23 @@ const finalUserId = userId ? Number(userId) : 0;
 }
 
 // EMAIL STARTS HERE
-const mailOptions = {
-  from: "DineFlex <madhulathareddy70@gmail.com>",
-  to: guestEmail,
-  subject: "Reservation Confirmation - DineFlex",
-  html: `
-    <h2>Reservation Confirmed 🎉</h2>
-
-    <p>Hello <b>${guestName}</b>,</p>
-
-    <p>Your reservation has been successfully created.</p>
-
-    <table border="1" cellpadding="10" cellspacing="0">
-      <tr>
-        <td><b>Reservation ID</b></td>
-        <td>${result.insertId}</td>
-      </tr>
-
-      <tr>
-        <td><b>Date</b></td>
-        <td>${date}</td>
-      </tr>
-
-      <tr>
-        <td><b>Start Time</b></td>
-        <td>${startTime}</td>
-      </tr>
-
-      <tr>
-        <td><b>End Time</b></td>
-        <td>${endTime}</td>
-      </tr>
-
-      <tr>
-        <td><b>Guests</b></td>
-        <td>${guests}</td>
-      </tr>
-
-      <tr>
-        <td><b>Table Number</b></td>
-        <td>${tableId}</td>
-      </tr>
-
-      <tr>
-        <td><b>Payment Status</b></td>
-        <td>${paymentStatus || "Unpaid"}</td>
-      </tr>
-
-      <tr>
-        <td><b>Amount Paid</b></td>
-        <td>₹${paidAmount || 0}</td>
-      </tr>
-    </table>
-
-    <br>
-
-    <p>Thank you for choosing us ❤️</p>
-
-    <p>DineFlex Team</p>
-  `
-};
-
-transporter.sendMail(mailOptions, (error) => {
-  if (error) {
-    console.log("Email Error:", error);
-  } else {
-    console.log("Reservation email sent");
-  }
+sendReservationEmail({
+  guestName,
+  guestEmail,
+  reservationId: result.insertId,
+  date,
+  startTime,
+  endTime,
+  guests,
+  paymentStatus: paymentStatus || "Unpaid",
+  paidAmount: paidAmount || 0
+})
+.then(() => {
+  console.log("Reservation email sent");
+})
+.catch((err) => {
+  console.error("Email Error:", err.message);
 });
-
 // RESPONSE TO FRONTEND
 res.json({
   message: "Reservation created successfully",
